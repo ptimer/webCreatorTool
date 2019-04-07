@@ -12,19 +12,19 @@
 				</v-list-tile>
 			</v-list>
 		</v-navigation-drawer>
-		<v-toolbar app dark class="primary">
-			<v-toolbar-side-icon v-on:click.stop="drawer = !drawer" class="hidden-md-and-up"></v-toolbar-side-icon>
-			<router-link :to="'/'" tag="span" style="cursor:pointer">
-				<v-toolbar-title v-text="'Something About Books'"></v-toolbar-title>
-			</router-link>
+		<v-toolbar>
+      <router-link :to="'/'" tag="span" style="cursor:pointer">
+        <v-toolbar-title v-text="'WebCreatorTool'" class="font-weight-regular"></v-toolbar-title>
+      </router-link>
 			<v-spacer></v-spacer>
-			<v-toolbar-items class="hidden-sm-and-down">
+			<v-toolbar-items class="hidden-sm-and-down" >
 				<v-btn v-for="(item, i) in menuItems" flat :key="'B' + i" :to="item.route">
 					<v-icon left v-html="item.icon"></v-icon>
 					{{item.title}}
 				</v-btn>
 			</v-toolbar-items>
-
+      <v-toolbar-side-icon v-on:click.stop="drawer = !drawer" class="hidden-md-and-up"
+></v-toolbar-side-icon>
 		</v-toolbar>	
 	</div>
 </template>
@@ -47,16 +47,11 @@ export default {
   	menuItems(){
   		return this.isUserAuth ? 
       [
-  			{
-  				icon: "visibility",
-  				title: "Читать",
-  				route: "/books",
-  			},
-  			{
-  				icon: "extension",
-  				title: "Учить слова",
-  				route: "/words",
-  			},
+        {
+          icon: "web",
+          title: "Мои сайты",
+          route: "/mySites",
+        },
   			{
   				icon: "account_circle",
   				title: "Мой кабинет",
@@ -66,20 +61,15 @@ export default {
   				icon: "exit_to_app",
   				title: "Выйти",
   				route: "/logout",
-  			}
+  			},
+        {
+          icon: "edit",
+          title: "Конструктор",
+          route: "/constructor",
+        }
   		] : 
 
       [
-        {
-          icon: "visibility",
-          title: "Читать",
-          route: "/books",
-        },
-        {
-          icon: "extension",
-          title: "Учить слова",
-          route: "/words",
-        },
         {
           icon: "input",
           title: "Войти",

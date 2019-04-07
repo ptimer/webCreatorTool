@@ -1,9 +1,11 @@
 <template>
-	<div>
-		<v-footer :fixed="true" app>
-			<span>BokiBooki &copy 2019</span>
-		</v-footer>
-	</div>
+  <v-footer class="pa-3">
+	    <v-flex
+	        text-xs-center
+	      >
+	        &copy;2018 — <strong>PTIMER</strong>
+	    </v-flex>
+  </v-footer>
 </template>
 
 <script>

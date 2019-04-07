@@ -1,24 +1,42 @@
-import Vue from "vue";
-import Router from "vue-router";
-import books from "@/components/books" 
+import Vue from "vue"
+import Router from "vue-router"
+import store from "@/store"
 import profile from "@/components/profile" 
 import signin from "@/components/signin" 
 import signup from "@/components/signup" 
-import words from "@/components/words" 
+import createNewWebsite from "@/components/createNewWebsite"
+import mySites from "@/components/mySites"
+import constructor from "@/components/constructor"
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/books',
-      name: "books",
-      component: books
+      path: '/createNewWebsite',
+      name: 'createNewWebsite',
+      component: createNewWebsite
+    },
+    {
+      path: '/constructor',
+      name: 'constructor',
+      component: constructor
+    },
+    {
+      path: '/mySites',
+      name: 'mySites',
+      component: mySites,
+      beforeEnter(to, from, next){
+        store.getters.isUserAuth ? next() : next('/signin')
+      }
     },
     {
       path: '/profile',
       name: "profile",
-      component: profile
+      component: profile,
+      beforeEnter(to, from, next){
+        store.getters.isUserAuth ? next() : next('/signin')
+      }
     },
     {
       path: '/signin',
@@ -29,12 +47,7 @@ export default new Router({
       path: '/signup',
       name: "signup",
       component: signup
-    },
-    {
-      path: '/words',
-      name: "words",
-      component: words
-    },
+    }
   ],
   mode: 'history'
 });

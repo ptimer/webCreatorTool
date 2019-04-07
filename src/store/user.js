@@ -58,6 +58,9 @@ export default{
   getters:{
     isUserAuth(state){
       return state.user.isAuth
+    }, 
+    user_uid(state){
+      return state.user.uid
     }
   }
 };

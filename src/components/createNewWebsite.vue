@@ -1,11 +1,10 @@
 <template>
-	<h1>Words</h1>
 </template>
 
 <script>
 export default {
 
-  name: 'words',
+  name: 'createNewWebsite',
 
   data () {
     return {
