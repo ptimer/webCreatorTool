@@ -5,7 +5,7 @@
 
       <v-flex xs12 v-if="amount == 1">
         <v-card dark color="primary" v-on:dragenter="dragEnter(0, $event)" v-on:dragover="dragOver($event)" v-on:dragleave="dragLeave(0, $event)" v-on:drop="dragDrop(0, $event)">
-          <v-card-text :class="enter1[0] ? 'px-0 hovered' : 'px-0 default'">{{enter1[0]}}</v-card-text>
+          <v-card-text :class="enter[0] ? 'px-0 hovered' : 'px-0 default'">{{enter[0]}}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex v-for="(i, idx) in 2" :key="`6${i}`" xs6 v-else-if="amount == 2">
@@ -15,53 +15,20 @@
                 v-on:dragleave="dragLeave(idx, $event)" 
                 v-on:drop="dragDrop(idx, $event)"
         >
-          <v-card-text :class="enter1[idx] ? 'px-0 hovered' : 'px-0 default'">
+          <v-card-text :class="enter[idx] ? 'px-0 hovered' : 'px-0 default'">
             
-            <v-flex xs12 sm6 v-if="droppedText[idx]">
-              <v-text-field
-                v-model="first"
-                label="Введите текст"
-                solo
-              ></v-text-field>
-            </v-flex>
-
-
-            <v-btn v-if="droppedImage[idx]"
-              :loading="loading3"
-              :disabled="loading3"
-              color="blue-grey"
-              class="white--text"
-              @click="loader = 'loading3'"
-            >
-              Загрузить фотографию
-              <v-icon right dark>cloud_upload</v-icon>
-            </v-btn>
+            <droppedText :droppedText="droppedText[idx]"></droppedText>
+            <droppedImage :droppedImage="droppedImage[idx]"></droppedImage>
 
           </v-card-text>
         </v-card>
       </v-flex>
       <v-flex v-for="(i, idx) in 3" :key="`4${i}`" xs4 v-else-if="amount == 3">
         <v-card dark color="secondary" v-on:dragenter="dragEnter(idx,$event)" v-on:dragover="dragOver($event)" v-on:dragleave="dragLeave(idx, $event)" v-on:drop="dragDrop(idx, $event)">
-          <v-card-text :class="enter1[idx] ? 'px-0 hovered' : 'px-0 default'">
+          <v-card-text :class="enter[idx] ? 'px-0 hovered' : 'px-0 default'">
             
-            <v-flex xs12 sm6 v-if="droppedText[idx]">
-              <v-text-field
-                v-model="first"
-                label="Введите текст"
-                solo
-              ></v-text-field>
-            </v-flex>
-
-            <v-btn v-if="droppedImage[idx]"
-              :loading="loading3"
-              :disabled="loading3"
-              color="blue-grey"
-              class="white--text"
-              @click="loader = 'loading3'"
-            >
-              Загрузить фотографию
-              <v-icon right dark>cloud_upload</v-icon>
-            </v-btn>
+            <droppedText :droppedText="droppedText[idx]"></droppedText>
+            <droppedImage :droppedImage="droppedImage[idx]"></droppedImage>
 
           </v-card-text>
         </v-card>
@@ -118,9 +85,18 @@
 </template>
 
 <script>
+
+import droppedImage from "./gridsCanvasComponents/droppedImage"
+import droppedText from "./gridsCanvasComponents/droppedText"
+
 export default {
 
   name: 'gridCanvas',
+
+  components: {
+    droppedImage,
+    droppedText
+  },
 
   props: [
   	'amount'
@@ -128,37 +104,27 @@ export default {
 
   data () {
     return {
-      enter1: [false, false, false],
-      droppedText: [],
-      droppedImage: [],
+      enter: [false, false, false],
       texts: [],
-      enter: false,
-      loading3: false,
-      first: null
+      droppedImage: [],
+      droppedText: [],
+      textsComponentsList: []
     }
   },
   methods: {
     dragEnter: function(i, e) {
          e.preventDefault()
-         this.enter = true;
-
-
-         this.$set(this.enter1, i, true);
+         this.$set(this.enter, i, true);
     },
     dragOver: function(e){
          e.preventDefault()
     },
 
     dragLeave: function(i, e){
-        this.enter = false;
-
-        this.$set(this.enter1, i, false);
+        this.$set(this.enter, i, false);
     },
 
     dragDrop: function(i, e){
-        this.enter = false;
-        console.log(e)
-
         if(this.$store.getters.get_whatElementIsDragging == "addText"){
           this.$set(this.droppedText, i, true);
         }
@@ -166,9 +132,7 @@ export default {
         if(this.$store.getters.get_whatElementIsDragging == "addImage"){
           this.$set(this.droppedImage, i, true);
         }
-        this.$set(this.enter1, i, false);
-        
-        
+        this.$set(this.enter, i, false);
         
         // Adding textBlock
 
